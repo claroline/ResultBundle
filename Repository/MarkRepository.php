@@ -29,12 +29,13 @@ class MarkRepository extends EntityRepository
         $dql = '
             SELECT
                 u.id,
-                CONCAT(u.firstName, \' \', u.lastName) AS name,
+                CONCAT(u.lastName, \' \', u.firstName) AS name,
                 m.value AS mark,
                 m.id AS markId
             FROM Claroline\ResultBundle\Entity\Mark m
             JOIN m.user u
             WHERE m.result = :result
+            ORDER BY u.lastName ASC
         ';
 
         $query = $this->_em->createQuery($dql);
@@ -56,13 +57,14 @@ class MarkRepository extends EntityRepository
         $dql = '
             SELECT
                 u.id,
-                CONCAT(u.firstName, \' \', u.lastName) AS name,
+                CONCAT(u.lastName, \' \', u.firstName) AS name,
                 m.value AS mark,
                 m.id AS markId
-            FROM Claroline\ResultBundle\Entity\Mark m
-            JOIN m.user u
-            WHERE m.result = :result
-            AND u = :user
+                FROM Claroline\ResultBundle\Entity\Mark m
+                JOIN m.user u
+                WHERE m.result = :result
+                AND u = :user
+                ORDER BY u.lastName ASC
         ';
 
         $query = $this->_em->createQuery($dql);
